@@ -2,6 +2,7 @@
 import { patch } from "@web/core/utils/patch";
 import { rpc }   from "@web/core/network/rpc";
 import { PaymentForm } from "@payment/interactions/payment_form";
+
 patch(PaymentForm.prototype, {
     async _prepareInlineForm(providerId, providerCode,
                              paymentOptionId, paymentMethodCode, flow) {

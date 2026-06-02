@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <group name="provider_credentials" position="inside">
                 <!-- Add API key / secret fields here for a real gateway -->
+                <field name="multisafepay_api_key" string="API"/>
             </group>
         </field>
     </record>
