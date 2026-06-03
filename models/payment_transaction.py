@@ -14,7 +14,7 @@ class PaymentTransaction(models.Model):
             return res
         import requests
 
-        url = "https://testapi.multisafepay.com/v1/json/orders?api_key=cd0e81e3b534d7a9400aba384c23fba5d422328f"
+        url = "https://testapi.multisafepay.com/v1/json/orders?api_key=1fec9c037d81e37646771b97c20073298ba76e0c"
 
         payload = {
             "type": "redirect",
@@ -25,10 +25,14 @@ class PaymentTransaction(models.Model):
             "payment_options": {
                 "notification_method": "POST",
                 "notification_url": "https://www.example.com/webhooks/payment",
-                "redirect_url": "https://www.example.com/order/success",
+                "redirect_url": "http://localhost:8019/shop/payment/success",
                 "cancel_url": "http://localhost:8019/shop/payment",
                 "close_window": False
             },
+            "custom_info": {
+                "custom_1": self.id,
+            },
+
             "customer": {
                 "locale": "en_US",
                 "disable_send_email": False
@@ -43,10 +47,6 @@ class PaymentTransaction(models.Model):
         }
 
         response = requests.post(url, json=payload, headers=headers).json()
-        print('response',response)
-        response1 = requests.get(url, headers=headers)
-
-        print('res',response1.text)
 
         if response['success']:
             return {
@@ -62,7 +62,7 @@ class PaymentTransaction(models.Model):
 
     def _apply_updates(self, payment_data):
         """Set the transaction state based on the simulated status."""
-        print(payment_data)
+
         super()._apply_updates(payment_data)
         if self.provider_code not in ('multisafepay'):
             return
